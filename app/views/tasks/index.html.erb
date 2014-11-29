@@ -1,0 +1,36 @@
+<h1>Listing tasks</h1>
+
+<table class="table">
+  <thead>
+    <tr class="success">
+      <th></th>
+      <th>Name</th>
+      <th>Decription</th>
+      <th>Deadline</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tasks.each do |task| %>
+      <%= content_tag :tr, class: (task.deadline.past? ? "danger" : "success") do %>
+        <td>
+          <%#= link_to 'Toggle', toggle_task_path(task), class: "btn btn-primary" %>
+          <%= check_box_tag nil, nil, task.completed, class: "task", data: { url: toggle_task_url(task) } %>
+        </td>
+        <td><%= task.name %></td>
+        <td><%= task.decription %></td>
+        <td><%= localize task.deadline, format: :short %></td>
+        <td><%= link_to 'Show', task %></td>
+        <td><%= link_to 'Edit', edit_task_path(task) %></td>
+        <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Task', new_task_path %>
